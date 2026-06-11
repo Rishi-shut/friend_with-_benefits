@@ -1,7 +1,6 @@
-/* ❄️ FrostZone Snowfall Particle System */
+/* ❄️ FrostZone Snowfall Particle System with Live Tuning */
 
 const SNOW_CONFIG = {
-  particleCount: 80,
   layers: 3,           // foreground / mid / background
   speedRange: [0.3, 1.2],
   sizeRange: [2, 6],   // px
@@ -22,13 +21,20 @@ class Snowfall {
     this.targetMouseX = 0;
     this.targetMouseY = 0;
 
+    // Live variables updated by Sliders
+    this.speedScale = 1.0;
+    this.windScale = 0.0; // -2.0 (left) to +2.0 (right)
+
     this.resize();
-    this.init();
+    this.init(80); // Default 80 particles
 
     window.addEventListener('resize', () => this.resize());
     window.addEventListener('mousemove', (e) => this.handleMouseMove(e));
     
     this.animate();
+
+    // Register instance globally so app.js can access it
+    window.snowfallInstance = this;
   }
 
   resize() {
@@ -37,31 +43,39 @@ class Snowfall {
   }
 
   handleMouseMove(e) {
-    // Center normalized coordinates (-0.5 to 0.5)
     this.targetMouseX = (e.clientX / window.innerWidth) - 0.5;
     this.targetMouseY = (e.clientY / window.innerHeight) - 0.5;
   }
 
-  init() {
+  init(count) {
     this.particles = [];
-    for (let i = 0; i < SNOW_CONFIG.particleCount; i++) {
-      // Assign particles to different layers (0 = back, 1 = mid, 2 = front)
-      const layer = Math.floor(Math.random() * SNOW_CONFIG.layers);
-      
-      const speedMult = (layer + 1) / SNOW_CONFIG.layers;
-      const baseSpeed = this.randomRange(SNOW_CONFIG.speedRange[0], SNOW_CONFIG.speedRange[1]);
-      
-      this.particles.push({
-        x: Math.random() * this.canvas.width,
-        y: Math.random() * this.canvas.height,
-        size: this.randomRange(SNOW_CONFIG.sizeRange[0], SNOW_CONFIG.sizeRange[1]) * speedMult,
-        speedY: baseSpeed * speedMult,
-        speedX: (Math.random() - 0.5) * SNOW_CONFIG.drift,
-        opacity: this.randomRange(SNOW_CONFIG.opacityRange[0], SNOW_CONFIG.opacityRange[1]) * speedMult,
-        layer: layer,
-        wobble: Math.random() * Math.PI * 2,
-        wobbleSpeed: 0.01 + Math.random() * 0.02
-      });
+    this.setParticleCount(count);
+  }
+
+  setParticleCount(targetCount) {
+    const currentCount = this.particles.length;
+    const diff = targetCount - currentCount;
+
+    if (diff > 0) {
+      for (let i = 0; i < diff; i++) {
+        const layer = Math.floor(Math.random() * SNOW_CONFIG.layers);
+        const speedMult = (layer + 1) / SNOW_CONFIG.layers;
+        const baseSpeed = this.randomRange(SNOW_CONFIG.speedRange[0], SNOW_CONFIG.speedRange[1]);
+        
+        this.particles.push({
+          x: Math.random() * this.canvas.width,
+          y: Math.random() * this.canvas.height,
+          size: this.randomRange(SNOW_CONFIG.sizeRange[0], SNOW_CONFIG.sizeRange[1]) * speedMult,
+          speedY: baseSpeed * speedMult,
+          speedX: (Math.random() - 0.5) * SNOW_CONFIG.drift,
+          opacity: this.randomRange(SNOW_CONFIG.opacityRange[0], SNOW_CONFIG.opacityRange[1]) * speedMult,
+          layer: layer,
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.01 + Math.random() * 0.02
+        });
+      }
+    } else if (diff < 0) {
+      this.particles.splice(0, Math.abs(diff));
     }
   }
 
@@ -70,35 +84,29 @@ class Snowfall {
   }
 
   animate() {
-    // Soft mouse interpolation
     this.mouseX += (this.targetMouseX - this.mouseX) * 0.05;
     this.mouseY += (this.targetMouseY - this.mouseY) * 0.05;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     for (let p of this.particles) {
-      // Apply parallax offset based on layer depth
-      // Back layer moves less, front layer moves more
       const depthFactor = (p.layer + 1) * 15;
       const offsetX = this.mouseX * depthFactor;
       const offsetY = this.mouseY * depthFactor;
 
       p.wobble += p.wobbleSpeed;
-      const currentDrift = p.speedX + Math.sin(p.wobble) * 0.2;
+      // Combine base random speed, wobble, and custom wind force
+      const currentDrift = p.speedX + Math.sin(p.wobble) * 0.2 + this.windScale * (p.layer + 1) * 0.4;
 
-      // Draw particle
       this.ctx.beginPath();
       this.ctx.arc(p.x + offsetX, p.y + offsetY, p.size, 0, Math.PI * 2);
       this.ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-      this.ctx.shadowColor = 'rgba(168, 207, 237, 0.4)';
-      this.ctx.shadowBlur = p.layer === 2 ? 4 : 0; // Front particles glow slightly
       this.ctx.fill();
 
-      // Update positions
-      p.y += p.speedY;
+      // Apply speeds (with custom speedScale modifier)
+      p.y += p.speedY * this.speedScale;
       p.x += currentDrift;
 
-      // Wrap around bounds
       if (p.y > this.canvas.height + 10) {
         p.y = -10;
         p.x = Math.random() * this.canvas.width;
@@ -114,7 +122,6 @@ class Snowfall {
   }
 }
 
-// Initialise on load
 window.addEventListener('DOMContentLoaded', () => {
   new Snowfall('snow-canvas');
 });

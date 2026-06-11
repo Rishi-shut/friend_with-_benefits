@@ -1,0 +1,391 @@
+/* ❄️ FrostZone Component Library */
+
+/* Frosted glass card */
+.card-frost {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(168, 207, 237, 0.5);
+  box-shadow: 0 8px 32px rgba(74, 158, 219, 0.08);
+  border-radius: var(--radius-md);
+  padding: 32px;
+}
+
+/* Floating card lift */
+.card-lift {
+  box-shadow:
+    0 2px 8px rgba(26, 92, 150, 0.04),
+    0 8px 24px rgba(26, 92, 150, 0.08),
+    0 24px 48px rgba(26, 92, 150, 0.06);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.card-lift:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 4px 12px rgba(26, 92, 150, 0.06),
+    0 16px 36px rgba(26, 92, 150, 0.12),
+    0 32px 64px rgba(26, 92, 150, 0.08);
+}
+
+/* Hero glow */
+.hero-glow {
+  box-shadow: 0 0 80px rgba(74, 158, 219, 0.25), 0 0 160px rgba(155, 127, 232, 0.1);
+}
+
+/* Reusable buttons */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  border: none;
+  background: none;
+}
+
+.btn--primary {
+  background: var(--arctic-blue);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background: var(--deep-ice);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(74, 158, 219, 0.35);
+}
+
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.4);
+  color: var(--deep-ice);
+  border: 1.5px solid var(--glacier-blue);
+  backdrop-filter: blur(8px);
+}
+
+.btn--ghost:hover {
+  background: var(--ice-surface);
+  transform: translateY(-2px);
+}
+
+.btn--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glacier-blue);
+  color: var(--frost-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn--icon:hover {
+  background: var(--ice-surface);
+  color: var(--deep-ice);
+}
+
+/* Profile Customizer */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.avatar-option {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background: var(--ice-surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.avatar-option:hover {
+  transform: scale(1.1);
+  background: var(--glacier-blue);
+}
+
+.avatar-option.active {
+  border-color: var(--arctic-blue);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(74, 158, 219, 0.25);
+}
+
+.color-swatches {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.color-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.color-swatch.active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2.5px var(--frost-text);
+}
+
+/* Global Lounge Chat Dashboard */
+.lounge-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 480px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(168, 207, 237, 0.5);
+}
+
+.lounge-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(168, 207, 237, 0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.lounge-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--crystal-teal);
+  display: inline-block;
+  box-shadow: 0 0 8px var(--crystal-teal);
+  margin-right: 6px;
+}
+
+.lounge-body {
+  display: grid;
+  grid-template-columns: 1fr 150px;
+  overflow: hidden;
+  height: 100%;
+}
+
+@media (max-width: 600px) {
+  .lounge-body {
+    grid-template-columns: 1fr;
+  }
+  .lounge-users {
+    display: none;
+  }
+}
+
+.lounge-chat-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  gap: 14px;
+}
+
+.lounge-users {
+  border-left: 1px solid rgba(168, 207, 237, 0.4);
+  background: rgba(255, 255, 255, 0.25);
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.lounge-users h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--mist-text);
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.lounge-user-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.lounge-user-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.lounge-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 80%;
+  align-self: flex-start;
+}
+
+.lounge-msg--self {
+  align-self: flex-end;
+}
+
+.lounge-msg-meta {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mist-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lounge-msg--self .lounge-msg-meta {
+  align-self: flex-end;
+}
+
+.lounge-msg-bubble {
+  padding: 10px 14px;
+  border-radius: 0 16px 16px 16px;
+  background: #FFF;
+  border: 1px solid rgba(168, 207, 237, 0.4);
+  font-size: 14px;
+  word-break: break-word;
+  color: var(--frost-text);
+}
+
+.lounge-msg--self .lounge-msg-bubble {
+  border-radius: 16px 0 16px 16px;
+  background: var(--arctic-blue);
+  color: #FFF;
+  border-color: transparent;
+}
+
+.lounge-msg--system {
+  align-self: center;
+  max-width: 100%;
+}
+
+.lounge-msg--system .lounge-msg-bubble {
+  background: rgba(74, 158, 219, 0.08);
+  color: var(--deep-ice);
+  border-color: rgba(74, 158, 219, 0.15);
+  font-size: 12px;
+  font-style: italic;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+}
+
+/* Snowfall Adjuster Panel */
+.slider-group {
+  margin-bottom: 20px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mist-text);
+  margin-bottom: 8px;
+}
+
+.slider-value {
+  font-family: var(--font-mono);
+  color: var(--deep-ice);
+  background: var(--ice-surface);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+}
+
+.custom-range {
+  width: 100%;
+  height: 6px;
+  background: var(--ice-surface);
+  outline: none;
+  border-radius: var(--radius-full);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.custom-range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--arctic-blue);
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 6px rgba(74, 158, 219, 0.3);
+  transition: transform var(--transition-fast);
+}
+
+.custom-range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: var(--deep-ice);
+}
+
+/* Legacy game cards/badges compatibility */
+.pill {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--ice-surface);
+  color: var(--deep-ice);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(26, 92, 150, 0.15);
+  margin-left: -10px;
+  object-fit: cover;
+}
+.avatar:first-child {
+  margin-left: 0;
+}
+.avatar--count {
+  background: var(--glacier-blue);
+  color: var(--deep-ice);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}

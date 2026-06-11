@@ -8,14 +8,16 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Dependency directories
+website/node_modules/
 node_modules/
 jspm_packages/
 
-# Optional npm or yarn cache directory
+# Optional cache directories
 .npm
 .eslintcache
 
 # Output / Distribution
+website/dist/
 dist/
 dist-ssr/
 *.local
@@ -30,6 +32,3 @@ dist-ssr/
 *.njsproj
 *.sln
 *.sw?
-
-# Image Assets
-assets/img/

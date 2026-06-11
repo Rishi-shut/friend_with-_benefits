@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FrostZone — Interactive Winter Lounge</title>
+  <meta name="description" content="Welcome to the FrostZone winter lounge. Customize your profile, adjust snowfall physics in real-time, and chat with other tabs synchronously!">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
+</head>
+<body>
+
+  <!-- Background Canvas snowfall -->
+  <canvas id="snow-canvas"></canvas>
+
+  <!-- Navigation -->
+  <header class="header-nav">
+    <div class="container nav-container">
+      <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <span class="logo-icon">❄️</span><span>FrostZone</span>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#customizer" class="nav-link">Customizer</a></li>
+          <li><a href="#lounge" class="nav-link">Lounge Chat</a></li>
+        </ul>
+      </nav>
+      <div>
+        <a href="#lounge" class="btn btn--primary">Enter Lounge</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="section hero-section" style="min-height: 80vh; display: flex; align-items: center; padding-top: 100px;">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      
+      <div class="hero-content anim-frost-in">
+        <div style="font-size: 4.5rem; margin-bottom: 24px; animation: crystal-pulse 3s ease-in-out infinite; display: inline-block;">❄️</div>
+        <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 24px; line-height: 1.15;">
+          Step into the <span style="background: linear-gradient(135deg, var(--arctic-blue), var(--aurora-violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">FrostZone.</span>
+        </h1>
+        <p style="font-size: 1.25rem; color: var(--mist-text); margin-bottom: 40px; line-height: 1.6;">
+          An interactive winter sanctuary. Customize your profile theme, tune the falling canvas snow physics in real-time, and chat across browser windows synchronously.
+        </p>
+        
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="#customizer" class="btn btn--primary" style="font-size: 16px; padding: 14px 28px;">
+            Customize Profile &darr;
+          </a>
+          <a href="#lounge" class="btn btn--ghost" style="font-size: 16px; padding: 14px 28px;">
+            Join Lounge &darr;
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Main Lounge Dashboard (Side-by-side Cards) -->
+  <section class="section" id="customizer" style="padding-top: 48px;" data-reveal>
+    <div class="container" style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start;">
+      
+      <!-- Left Column: Customizers Panel -->
+      <div class="card-frost card-lift" style="display: flex; flex-direction: column; gap: 32px; border-radius: var(--radius-lg); background: rgba(255,255,255,0.75);">
+        
+        <!-- 1. Profile Editor -->
+        <div class="profile-section">
+          <h3 style="font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+            👤 Customize Identity
+          </h3>
+          
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label">Nickname</label>
+            <div style="display: flex; gap: 8px;">
+              <input class="form-input" id="profile-username" type="text" placeholder="Enter name..." maxlength="15">
+              <button class="btn btn--primary" id="save-profile-btn" style="padding: 10px 16px; font-size: 13px; white-space: nowrap;">
+                Save
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label">Select Winter Avatar</label>
+            <div class="avatar-grid">
+              <button class="avatar-option" data-avatar="🐧">🐧</button>
+              <button class="avatar-option" data-avatar="🦊">🦊</button>
+              <button class="avatar-option" data-avatar="🦉">🦉</button>
+              <button class="avatar-option" data-avatar="🐻">🐻</button>
+              <button class="avatar-option" data-avatar="🐋">🐋</button>
+              <button class="avatar-option" data-avatar="⛄">⛄</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Theme Accent Color</label>
+            <div class="color-swatches">
+              <button class="color-swatch" data-color="#4A9EDB" title="Arctic Blue"></button>
+              <button class="color-swatch" data-color="#38C9C0" title="Crystal Teal"></button>
+              <button class="color-swatch" data-color="#9B7FE8" title="Aurora Violet"></button>
+              <button class="color-swatch" data-color="#1A5C96" title="Deep Ice"></button>
+              <button class="color-swatch" data-color="#A8CFED" title="Glacier Blue"></button>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px dashed var(--glacier-blue);"></div>
+
+        <!-- 2. Snowfall Physics Controls -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 style="font-size: 1.35rem; display: flex; align-items: center; gap: 8px; margin-bottom: 0;">
+              ⚙️ Snow Controls
+            </h3>
+            <button class="btn" id="reset-sliders-btn" style="padding: 4px 10px; font-size: 11px; background: var(--ice-surface); color: var(--deep-ice); border-radius: var(--radius-sm);">
+              Reset
+            </button>
+          </div>
+          
+          <!-- Slider: Density -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Snowflake Density</span>
+              <span class="slider-value" id="val-density">80</span>
+            </div>
+            <input type="range" class="custom-range" id="slider-density" min="10" max="300" value="80">
+          </div>
+
+          <!-- Slider: Speed -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Fall Velocity</span>
+              <span class="slider-value" id="val-speed">1.0x</span>
+            </div>
+            <input type="range" class="custom-range" id="slider-speed" min="0.1" max="4.0" step="0.1" value="1.0">
+          </div>
+
+          <!-- Slider: Wind Drift -->
+          <div class="slider-group" style="margin-bottom: 0;">
+            <div class="slider-header">
+              <span>Horizontal Wind Drift</span>
+              <span class="slider-value" id="val-wind">None</span>
+            </div>
+            <input type="range" class="custom-range" id="slider-wind" min="-2.0" max="2.0" step="0.2" value="0.0">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Lounge Chat Panel -->
+      <div id="lounge" class="card-frost card-lift" style="padding: 0; border-radius: var(--radius-lg); overflow: hidden; background: none; border: none;">
+        
+        <div class="lounge-container">
+          
+          <!-- Lounge Header -->
+          <div class="lounge-header">
+            <div style="display: flex; align-items: center;">
+              <span class="lounge-status-dot"></span>
+              <span style="font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--frost-text);">Global Lounge Lobby</span>
+            </div>
+            <span class="pill" style="font-size: 11px;">BroadcastChannel Sync</span>
+          </div>
+          
+          <!-- Lounge Body (Chat Area + User List Sidebar) -->
+          <div class="lounge-body">
+            
+            <!-- Messages List -->
+            <div class="lounge-chat-area" id="lounge-messages">
+              <div class="lounge-msg lounge-msg--system">
+                <div class="lounge-msg-bubble">Welcome to the lounge! Open this website in another tab or window to test live message synchronization. 💬</div>
+              </div>
+            </div>
+            
+            <!-- User Sidebar -->
+            <div class="lounge-users">
+              <h4>Active Lounge</h4>
+              <div id="lounge-user-list">
+                <!-- Sync list -->
+              </div>
+            </div>
+            
+          </div>
+          
+          <!-- Chat form input -->
+          <div style="padding: 16px; border-top: 1px solid rgba(168, 207, 237, 0.4); background: rgba(255, 255, 255, 0.45);">
+            <form class="chat-input-form" id="lounge-form">
+              <input class="chat-input" id="lounge-input" type="text" placeholder="Send a message to other tabs..." maxlength="80" autocomplete="off">
+              <button class="btn btn--primary" type="submit" style="padding: 8px 18px; font-size: 14px;">Send</button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: rgba(255, 255, 255, 0.4); border-top: 1px solid rgba(168, 207, 237, 0.3); padding: 48px 0; text-align: center; font-size: 0.9rem; color: var(--mist-text); position: relative; z-index: 2;">
+    <div class="container">
+      <div style="font-size: 1.5rem; color: var(--frost-text); font-family: var(--font-display); font-weight: 700; margin-bottom: 8px;">❄️ FrostZone</div>
+      <p style="margin-bottom: 24px;">An interactive winter landing lounge.</p>
+      
+      <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 24px;">
+        <a href="#customizer" style="hover: color: var(--arctic-blue);">Customizer</a>
+        <a href="#lounge" style="hover: color: var(--arctic-blue);">Lounge Chat</a>
+      </div>
+      
+      <div style="border-top: 1.5px dashed var(--glacier-blue); width: 60px; margin: 0 auto 24px auto;"></div>
+      <p>&copy; 2026 FrostZone. Built with ❄️ and way too much enthusiasm for snow physics.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/assets/js/snow.js"></script>
+  <script type="module" src="/assets/js/app.js"></script>
+</body>
+</html>
