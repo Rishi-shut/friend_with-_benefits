@@ -1,0 +1,14 @@
+{
+  "name": "frostzone",
+  "version": "1.0.0",
+  "description": "FrostZone - Crisp, modern, wintery multiplayer gaming platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

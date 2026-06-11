@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FrostZone — Free Multiplayer In-Browser Games</title>
+  <meta name="description" content="Play instant, light, winter-themed multiplayer browser games. No installs, no accounts. Create a room, share the link, and freeze the leaderboard!">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
+</head>
+<body>
+
+  <!-- Floating Background Layers -->
+  <div id="three-bg"></div>
+  <canvas id="snow-canvas"></canvas>
+
+  <!-- Navigation -->
+  <header class="header-nav">
+    <div class="container nav-container">
+      <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <span class="logo-icon">❄️</span><span>FrostZone</span>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#games" class="nav-link">Games</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#leaderboard" class="nav-link">Leaderboard</a></li>
+        </ul>
+      </nav>
+      <div>
+        <button class="btn btn--primary" id="hero-host-btn">Play Now</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="section hero-section" style="min-height: 100vh; display: flex; align-items: center; padding-top: 100px;">
+    <div class="container" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; width: 100%;">
+      
+      <!-- Left Column: Copy -->
+      <div class="hero-content anim-frost-in">
+        <h1 style="font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 24px; line-height: 1.1;">
+          Game nights, <span style="background: linear-gradient(135deg, var(--arctic-blue), var(--aurora-violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">upgraded.</span>
+        </h1>
+        <p style="font-size: 1.25rem; color: var(--mist-text); margin-bottom: 40px; max-width: 550px;">
+          Invite friends. Pick a game. Play instantly in your browser — zero downloads, zero account setup required.
+        </p>
+        
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <button class="btn btn--primary" onclick="document.getElementById('room-modal').classList.add('active'); document.getElementById('modal-username-input').focus();" style="font-size: 16px; padding: 14px 28px;">
+            Create a Room &rarr;
+          </button>
+          <a href="#games" class="btn btn--ghost" style="font-size: 16px; padding: 14px 28px;">
+            Browse Games &darr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Online Stack Card -->
+      <div class="hero-visual anim-frost-in" style="animation-delay: 200ms; display: flex; justify-content: center;">
+        <div class="card-frost card-lift hero-glow" style="max-width: 340px; text-align: center; border-radius: var(--radius-lg); border-color: rgba(255, 255, 255, 0.7);">
+          <div style="font-size: 3rem; margin-bottom: 16px; animation: crystal-pulse 2.5s ease-in-out infinite;">🔮</div>
+          <h3 style="margin-bottom: 12px; font-size: 1.35rem;">Multiplayer Hub</h3>
+          <p style="font-size: 0.95rem; color: var(--mist-text); margin-bottom: 24px;">
+            Open multiple tabs side-by-side or share links with friends to test the synchronization instantly!
+          </p>
+          
+          <!-- Live Stack Badge -->
+          <div style="display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(56, 201, 192, 0.08); padding: 12px 20px; border-radius: var(--radius-full); border: 1px solid rgba(56, 201, 192, 0.2); width: fit-content; margin: 0 auto;">
+            <div class="avatar-stack">
+              <img class="avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=faces" alt="Player 1">
+              <img class="avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces" alt="Player 2">
+              <img class="avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces" alt="Player 3">
+              <span class="avatar avatar--count">+3</span>
+            </div>
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--deep-ice);">6 friends online</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Games Grid Section -->
+  <section class="section" id="games" data-reveal>
+    <div class="container">
+      <h2 class="section-title">Pick your game</h2>
+      <p class="section-subtitle">Choose from our crisp, wintery game modules. Instantly host and play with room codes.</p>
+      
+      <!-- Filter Bar -->
+      <div id="filter-bar" class="filter-bar">
+        <!-- Loaded dynamically via registry.js -->
+      </div>
+      
+      <!-- Games Grid -->
+      <div id="games-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px;">
+        <!-- Loaded dynamically via registry.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section" id="how-it-works" data-reveal>
+    <div class="container">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-subtitle">Zero installations, zero sign-ups. Three simple steps to get into the action.</p>
+      
+      <div class="steps-grid">
+        <!-- Step 1 -->
+        <div class="card-frost step-card">
+          <div class="step-icon">🎮</div>
+          <h3 class="step-title">1. Pick a Game</h3>
+          <p class="step-body">Browse our library of wintery game modules. Click "Play Now" to initialize a game session.</p>
+        </div>
+        <!-- Step 2 -->
+        <div class="card-frost step-card">
+          <div class="step-icon">🔗</div>
+          <h3 class="step-title">2. Share Your Link</h3>
+          <p class="step-body">Copy the generated room link with the JetBrains Mono room code and send it to your friends.</p>
+        </div>
+        <!-- Step 3 -->
+        <div class="card-frost step-card">
+          <div class="step-icon">✨</div>
+          <h3 class="step-title">3. Play Together</h3>
+          <p class="step-body">Real-time gameplay updates dynamically across all tabs. Or compete against smart bots solo!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Leaderboard Strip -->
+  <section class="leaderboard-ticker" id="leaderboard">
+    <div class="ticker-track">
+      <!-- Item 1 -->
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&h=60&fit=crop" alt="User 1">
+        <span class="ticker-name">Alex</span>
+        <span class="ticker-game">Snowball Wars</span>
+        <span class="ticker-score">142 pts</span>
+      </div>
+      <!-- Item 2 -->
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=60&h=60&fit=crop" alt="User 2">
+        <span class="ticker-name">Sam</span>
+        <span class="ticker-game">Crystal Pong</span>
+        <span class="ticker-score">98 pts</span>
+      </div>
+      <!-- Item 3 -->
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=60&h=60&fit=crop" alt="User 3">
+        <span class="ticker-name">GlacierBot</span>
+        <span class="ticker-game">Ice Trivia</span>
+        <span class="ticker-score">210 pts</span>
+      </div>
+      <!-- Item 4 -->
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop" alt="User 4">
+        <span class="ticker-name">FrostBite</span>
+        <span class="ticker-game">Snowball Wars</span>
+        <span class="ticker-score">115 pts</span>
+      </div>
+      <!-- Item 5 -->
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop" alt="User 5">
+        <span class="ticker-name">IceQueen</span>
+        <span class="ticker-game">Crystal Pong</span>
+        <span class="ticker-score">84 pts</span>
+      </div>
+      
+      <!-- Duplicate set to enable infinite looping scroll -->
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&h=60&fit=crop" alt="User 1">
+        <span class="ticker-name">Alex</span>
+        <span class="ticker-game">Snowball Wars</span>
+        <span class="ticker-score">142 pts</span>
+      </div>
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=60&h=60&fit=crop" alt="User 2">
+        <span class="ticker-name">Sam</span>
+        <span class="ticker-game">Crystal Pong</span>
+        <span class="ticker-score">98 pts</span>
+      </div>
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=60&h=60&fit=crop" alt="User 3">
+        <span class="ticker-name">GlacierBot</span>
+        <span class="ticker-game">Ice Trivia</span>
+        <span class="ticker-score">210 pts</span>
+      </div>
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop" alt="User 4">
+        <span class="ticker-name">FrostBite</span>
+        <span class="ticker-game">Snowball Wars</span>
+        <span class="ticker-score">115 pts</span>
+      </div>
+      <div class="ticker-item">
+        <img class="ticker-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop" alt="User 5">
+        <span class="ticker-name">IceQueen</span>
+        <span class="ticker-game">Crystal Pong</span>
+        <span class="ticker-score">84 pts</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: rgba(255, 255, 255, 0.4); border-top: 1px solid rgba(168, 207, 237, 0.3); padding: 48px 0; text-align: center; font-size: 0.9rem; color: var(--mist-text); position: relative; z-index: 2;">
+    <div class="container">
+      <div style="font-size: 1.5rem; color: var(--frost-text); font-family: var(--font-display); font-weight: 700; margin-bottom: 8px;">❄️ FrostZone</div>
+      <p style="margin-bottom: 24px;">Play together. Freeze the leaderboard.</p>
+      
+      <div style="display: flex; justify-content: center; gap: 24px; margin-bottom: 24px;">
+        <a href="#games" style="hover: color: var(--arctic-blue);">Games</a>
+        <a href="#how-it-works" style="hover: color: var(--arctic-blue);">How It Works</a>
+        <a href="#leaderboard" style="hover: color: var(--arctic-blue);">Leaderboard</a>
+      </div>
+      
+      <div style="border-top: 1.5px dashed var(--glacier-blue); width: 60px; margin: 0 auto 24px auto;"></div>
+      <p>&copy; 2026 FrostZone. Built with ❄️ and way too much enthusiasm for snow physics.</p>
+    </div>
+  </footer>
+
+  <!-- Host Room Modal -->
+  <div class="modal-overlay" id="room-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem;">Host a Game Room</h3>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <form id="modal-host-form">
+        <div class="form-group">
+          <label class="form-label" for="modal-username-input">Your Username</label>
+          <input class="form-input" id="modal-username-input" type="text" placeholder="Enter username..." maxlength="15" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="modal-game-select">Select Game</label>
+          <select class="form-input" id="modal-game-select" style="cursor: pointer;">
+            <!-- Loaded dynamically via app.js -->
+          </select>
+        </div>
+        <button class="btn btn--primary" type="submit" style="width: 100%; font-size: 16px; margin-top: 8px;">
+          Create Room &rarr;
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/assets/js/snow.js"></script>
+  <script type="module" src="/assets/3d/crystal-scene.js"></script>
+  <script type="module" src="/assets/js/app.js"></script>
+  <script type="module" src="/assets/js/registry.js"></script>
+</body>
+</html>

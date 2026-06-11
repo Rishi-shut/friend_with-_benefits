@@ -1,0 +1,41 @@
+[
+  {
+    "slug": "snowball-wars",
+    "title": "Snowball Wars",
+    "tagline": "Dodge. Aim. Dominate the snowfield.",
+    "thumbnail": "/assets/img/games/snowball-wars.png",
+    "minPlayers": 2,
+    "maxPlayers": 6,
+    "tags": ["action", "party", "quick-play"],
+    "estimatedMinutes": 5,
+    "status": "live",
+    "featured": true,
+    "color": "#4A9EDB"
+  },
+  {
+    "slug": "ice-trivia",
+    "title": "Ice Trivia",
+    "tagline": "Test your frost knowledge in real-time.",
+    "thumbnail": "/assets/img/games/ice-trivia.png",
+    "minPlayers": 2,
+    "maxPlayers": 8,
+    "tags": ["strategy", "party"],
+    "estimatedMinutes": 10,
+    "status": "live",
+    "featured": true,
+    "color": "#9B7FE8"
+  },
+  {
+    "slug": "crystal-pong",
+    "title": "Crystal Pong",
+    "tagline": "Spinning crystals. Quick reflections.",
+    "thumbnail": "/assets/img/games/crystal-pong.png",
+    "minPlayers": 2,
+    "maxPlayers": 2,
+    "tags": ["action", "2-players", "quick-play"],
+    "estimatedMinutes": 3,
+    "status": "live",
+    "featured": false,
+    "color": "#38C9C0"
+  }
+]
